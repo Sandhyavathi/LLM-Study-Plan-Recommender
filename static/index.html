@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Plan</title>
+</head>
+<body>
+  <h1>Your Study Plan</h1>
+  <div id="study-plan"></div>
+
+  <script>
+    // Fetch the score from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const score = urlParams.get('score');
+
+    // Make a request to your Flask API
+    fetch("https://llm-study-plan-recommender.onrender.com/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: `Student scored ${score}% in the quiz.` })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Display the study plan on the page
+      document.getElementById("study-plan").innerText = data.predicted_study_plan;
+    })
+    .catch(error => console.error("Error:", error));
+  </script>
+</body>
+</html>
