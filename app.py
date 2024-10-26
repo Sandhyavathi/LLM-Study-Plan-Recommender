@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
 import numpy as np
+import os
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ vectorizer = joblib.load('vectorizer.pkl')
 
 @app.route('/')
 def home():
-    return "Welcome to the Study Plan Prediction API!"
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -28,5 +29,3 @@ def predict():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Use PORT env variable
     app.run(host='0.0.0.0', port=port, debug=False)  # Debug should be off in production
-
-
